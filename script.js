@@ -66,6 +66,15 @@ const Game = (() => {
         }
 
         GameBoard.update(index, players[currentPlayerIndex].mark);
+
+        if (checkForWin(GameBoard.getGameBoard(), players[currentPlayerIndex].mark)) {
+            gameOver = true;
+            alert(`${players[currentPlayerIndex].name} won!`);
+        } else if (checkForTie(GameBoard.getGameBoard())) {
+            gameOver = true;
+            alert("It's a tie!");
+        };
+
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
     }
 
@@ -82,6 +91,29 @@ const Game = (() => {
         handleClick
     }
 })();
+
+function checkForWin(board) {
+    const winningCondition = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [0, 4, 8],
+        [2, 4, 6]
+    ]
+    for (let i = 0; i < winningCondition.length; i++) {
+        const [a, b, c] = winningCondition[i];
+        if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkForTie(board) {
+    return board.every(cell => cell !== "");
+}
 
 const restartButton = document.querySelector("#restart-button");
 restartButton.addEventListener("click", () => {
