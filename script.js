@@ -55,6 +55,10 @@ const Game = (() => {
     let gameOver;
 
     const startGame = () => {
+        if (gameOver) {
+            return;
+        }
+
         players = [
             createPlayer(document.querySelector("#player1").value, "X"),
             createPlayer(document.querySelector("#player2").value, "O")
@@ -97,8 +101,8 @@ const Game = (() => {
             GameBoard.update(i, "");
         }
         GameBoard.renderBoard();
-        gameOver = false;
         document.querySelector("#message").textContent = "";
+        startGame();
     }
 
     return {
